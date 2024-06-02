@@ -7,7 +7,7 @@ This is a CLI utility to **semantically** validate GitHub Actions workflows file
 There are many [other tools](#alternatives) checking the syntax of YAML files,
 or validating against the [SchemaStore github-workflow shema][schemastore-workflow],
 but none of them are tailored for easily writable custom semantic rules.
-This tool aims to fill the gap.
+This tool aims to fiasdfll the gap.
 
 It is heavily inspired by
 [detekt](https://detekt.dev/),
