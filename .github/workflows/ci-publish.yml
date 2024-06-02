@@ -15,25 +15,32 @@ jobs:
     timeout-minutes: 1
 
     permissions:
-      # dawidd6/action-download-artifact
+      # actions/download-artifact
       actions: read
       # EnricoMi/publish-unit-test-result-action
       checks: write
 
     steps:
 
-      - name: "Download and Extract Artifacts"
-        uses: dawidd6/action-download-artifact@v3
+      - name: "Download 'CI Event File' artifact."
+        uses: actions/download-artifact@v4
         with:
-          run_id: ${{ github.event.workflow_run.id }}
-          path: artifacts
+          name: 'CI Event File'
+          run-id: ${{ github.event.workflow_run.id }}
+
+      - name: "Download 'Unit Test Results' artifact."
+        uses: actions/download-artifact@v4
+        with:
+          name: 'Unit Test Results'
+          run-id: ${{ github.event.workflow_run.id }}
+          path: results
 
       - name: "Publish 'Unit Results' check suite."
         if: ${{ success() || failure() }}
         uses: EnricoMi/publish-unit-test-result-action@v2
         with:
           commit: ${{ github.event.workflow_run.head_sha }}
-          event_file: artifacts/CI Event File/event.json
+          event_file: event.json
           event_name: ${{ github.event.workflow_run.event }}
           check_name: '🔔 Test: Unit Results'
           comment_mode: off
@@ -41,4 +48,4 @@ jobs:
           test_changes_limit: 0
           action_fail_on_inconclusive: true
           junit_files: |
-            **/build/test-results/*/TEST-*.xml
+            results/**/build/test-results/*/TEST-*.xml
