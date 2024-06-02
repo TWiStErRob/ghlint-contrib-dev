@@ -21,13 +21,15 @@ jobs:
       # EnricoMi/publish-unit-test-result-action
       checks: write
 
+    defaults:
+      run:
+        shell: bash
     steps:
 
       - name: "Debug event"
         env:
           JSON: ${{ toJSON(github.event) }}
         run: echo "$JSON"
-        shell: bash
 
       - name: "Download 'Event File' artifact."
         uses: actions/download-artifact@v4
@@ -45,8 +47,10 @@ jobs:
           github-token: ${{ github.token }}
           path: results
 
+      - name: "Debug"
+        run: find .
+
       - name: "Publish 'Unit Results' check suite."
-        if: ${{ success() || failure() }}
         uses: EnricoMi/publish-unit-test-result-action@v2
         with:
           commit: ${{ github.event.workflow_run.head_sha }}
