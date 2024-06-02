@@ -10,9 +10,10 @@ on:
 jobs:
   test-results:
     name: "Publish Test Results"
-    if: ${{ github.event.workflow_run.conclusion != 'skipped' }}
+    # Only run when there's relevant result with some hope (in decreasing order) of having the artifacts necessary.
+    if: ${{ contains(fromJSON('["success","failure","timed_out","cancelled"]'), github.event.workflow_run.conclusion) }}
     runs-on: ubuntu-latest
-    timeout-minutes: 1
+    timeout-minutes: 3
 
     permissions:
       # actions/download-artifact
@@ -24,7 +25,7 @@ jobs:
 
       - name: "Debug event"
         env:
-          JSON: ${{ toJson(github.event) }}
+          JSON: ${{ toJSON(github.event) }}
         run: echo "$JSON"
 
       - name: "Download 'Event File' artifact."
