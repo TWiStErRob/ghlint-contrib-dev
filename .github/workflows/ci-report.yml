@@ -27,6 +27,7 @@ jobs:
         env:
           JSON: ${{ toJSON(github.event) }}
         run: echo "$JSON"
+        shell: bash
 
       - name: "Download 'Event File' artifact."
         uses: actions/download-artifact@v4
