@@ -5,19 +5,6 @@ on:
 
 jobs:
 
-  event-file:
-    name: "Event File"
-    timeout-minutes: 1
-    permissions: { }
-    runs-on: ubuntu-latest
-    steps:
-      - name: "Upload 'CI Event File' artifact."
-        uses: actions/upload-artifact@v4
-        with:
-          name: 'CI Event File'
-          if-no-files-found: error
-          path: ${{ github.event_path }}
-
   build:
     name: "Build"
     timeout-minutes: 5
