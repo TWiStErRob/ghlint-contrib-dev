@@ -22,10 +22,10 @@ jobs:
 
     steps:
 
-      - name: "Download 'CI Event File' artifact."
+      - name: "Download 'Event File' artifact."
         uses: actions/download-artifact@v4
         with:
-          name: 'CI Event File'
+          name: 'Event File'
           run-id: ${{ github.event.workflow_run.id }}
           github-token: ${{ github.token }}
           path: .

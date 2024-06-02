@@ -19,10 +19,10 @@ jobs:
     permissions: { }
     runs-on: ubuntu-latest
     steps:
-      - name: "Upload 'CI Event File' artifact."
+      - name: "Upload 'Event File' artifact."
         uses: actions/upload-artifact@v4
         with:
-          name: 'CI Event File'
+          name: 'Event File'
           if-no-files-found: error
           path: ${{ github.event_path }}
 
