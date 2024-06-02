@@ -1,0 +1,13 @@
+plugins {
+	id("net.twisterrob.ghlint.library")
+}
+
+dependencies {
+	api(projects.ghlintApi)
+	implementation(projects.ghlintSnakeyaml)
+	implementation(projects.ghlint)
+	api(libs.test.kotest.assertions)
+	api(libs.test.jupiter.api)
+	implementation(libs.classgraph)
+	implementation(libs.kotlin.reflection)
+}

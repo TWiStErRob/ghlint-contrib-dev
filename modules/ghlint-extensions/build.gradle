@@ -1,0 +1,8 @@
+plugins {
+	id("net.twisterrob.ghlint.library")
+}
+
+dependencies {
+	api(projects.ghlintApi)
+	testImplementation(projects.ghlintTesting)
+}

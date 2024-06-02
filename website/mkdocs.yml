@@ -1,0 +1,20 @@
+site_name: GH-Lint documentation
+repo_url: https://github.com/TWiStErRob/net.twisterrob.ghlint/
+
+theme:
+  name: material
+
+markdown_extensions:
+  - pymdownx.superfences:
+  - toc:
+      permalink: true
+
+validation:
+  nav:
+    not_found: warn
+    omitted_files: warn
+    absolute_links: warn
+  links:
+    not_found: warn
+    absolute_links: warn
+    unrecognized_links: warn

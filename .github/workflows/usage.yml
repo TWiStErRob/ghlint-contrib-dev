@@ -1,0 +1,51 @@
+name: "GH-Lint"
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - ".github/workflows/usage.yml"
+      - "action.yml"
+
+jobs:
+  ghlint:
+    name: "Validate GitHub Workflows"
+    # Don't run if the pull request is a release preparation.
+    # Action will reference a non-existing version, so it'll always fail.
+    if: ${{ github.head_ref != 'release' }}
+
+    permissions:
+      # actions/checkout
+      contents: read
+      # github/codeql-action/upload-sarif
+      security-events: write
+      # github/codeql-action/upload-sarif in private repositories / internal organizations.
+      actions: read
+
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+
+      - name: "Checkout ${{ github.ref }} branch in ${{ github.repository }} repository."
+        uses: actions/checkout@v4
+
+      - name: "Run GH-Lint validation."
+        id: ghlint
+        # TODO When using this file in your repo, change the following line to:
+        # uses: TWiStErRob/net.twisterrob.ghlint@v0
+        uses: ./
+
+      - name: "Upload 'GH-Lint Results' artifact."
+        if: ${{ success() || failure() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: 'GH-Lint Results'
+          if-no-files-found: error
+          path: ${{ steps.ghlint.outputs.sarif-report }}
+
+      - name: "Publish 'GH-Lint' GitHub Code Scanning analysis."
+        if: ${{ success() || failure() }}
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          checkout_path: ${{ github.workspace }}
+          sarif_file: ${{ steps.ghlint.outputs.sarif-report }}

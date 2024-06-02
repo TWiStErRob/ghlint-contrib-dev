@@ -1,0 +1,8 @@
+/build/
+/gradle/plugins/build/
+/modules/**/build/
+.gradle/
+.idea/
+/temp/
+/report.sarif
+.DS_Store

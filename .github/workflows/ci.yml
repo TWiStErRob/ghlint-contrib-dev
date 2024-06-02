@@ -1,0 +1,33 @@
+name: "CI"
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+concurrency:
+  # See https://github.com/TWiStErRob/github-workflows/blob/main/snippets/cancel-pr-ci-on-push.yml
+  group: ${{ github.ref == 'refs/heads/main' && format('ci-main-{0}', github.sha) || format('ci-{0}', github.ref) }}
+  cancel-in-progress: true
+
+jobs:
+
+  validate:
+    name: "🦺 Validation"
+    uses: TWiStErRob/github-workflows/.github/workflows/validate.yml@1e06403c5d561d70e40109c2701ea3092ca6ded7 # v3
+    permissions:
+      contents: read
+      security-events: write
+      actions: read
+
+  build:
+    name: "🔨 Build & Verify"
+    needs:
+      - validate
+    uses: ./.github/workflows/ci-build.yml
+    secrets: inherit
+    permissions:
+      contents: write
+      checks: write
+      security-events: write
