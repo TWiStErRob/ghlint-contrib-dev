@@ -15,8 +15,6 @@ jobs:
     timeout-minutes: 1
 
     permissions:
-      # actions/download-artifact
-      actions: read
       # EnricoMi/publish-unit-test-result-action
       checks: write
 
