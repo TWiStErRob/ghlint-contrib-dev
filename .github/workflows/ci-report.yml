@@ -22,6 +22,11 @@ jobs:
 
     steps:
 
+      - name: "Debug event"
+        env:
+          JSON: ${{ toJson(github.event) }}
+        run: echo "$JSON"
+
       - name: "Download 'Event File' artifact."
         uses: actions/download-artifact@v4
         with:
