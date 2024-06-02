@@ -100,6 +100,15 @@ jobs:
           name: 'Unit Test Results'
           if-no-files-found: error
           path: |
+            **/build/test-results/*/
+
+      - name: "Upload 'Unit Test Reports' artifact."
+        if: ${{ success() || failure() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: 'Unit Test Reports'
+          if-no-files-found: error
+          path: |
             **/build/reports/tests/*/
 
       - name: "Publish 'Unit Results' check suite."
