@@ -27,12 +27,15 @@ jobs:
         with:
           name: 'CI Event File'
           run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ github.token }}
+          path: .
 
       - name: "Download 'Unit Test Results' artifact."
         uses: actions/download-artifact@v4
         with:
           name: 'Unit Test Results'
           run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ github.token }}
           path: results
 
       - name: "Publish 'Unit Results' check suite."
